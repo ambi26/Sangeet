@@ -1,0 +1,157 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>{{ song.title }} - Sangeet</title>
+    <link href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mediaelement/4.2.7/mediaelementplayer.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" crossorigin="anonymous">
+    <link href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet" />
+
+    <style>
+        body {
+            margin: 0;
+            font-family: "Raleway", sans-serif;
+            background-color: #0a0b1f;
+        }
+        .textdata {
+            color: white;
+            text-align: center;
+            margin: 0;
+        }
+        .container2 {
+            width: 100%;
+            min-height: 100vh;
+            background-image: url("https://mariongrandvincent.github.io/HTML-Personal-website/img-codePen/bg-music-player.jpg");
+            background-repeat: no-repeat;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .music-player {
+            width: 400px;
+            padding-top: 20px;
+            border-radius: 10px;
+            background: linear-gradient(to bottom, rgba(10, 11, 31, 0.9) 50%, rgb(10, 11, 31) 70%);
+            box-shadow: 1px 10px 20px 5px #222;
+            position: relative;
+        }
+        .cover img {
+            display: block;
+            margin: auto;
+            width: 70%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+        .titre {
+            margin-top: 20px;
+        }
+        .titre h1, .titre h4 {
+            color: white;
+        }
+        .player-controls {
+            margin-top: 20px;
+            text-align: center;
+            z-index: 10;
+            position: relative;
+        }
+        .player-controls a {
+            color: #5bbb95;
+            text-decoration: none;
+        }
+        .player-controls i {
+            margin: 0 20px;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        /* .player-controls {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .player-controls a {
+            color: #5bbb95;
+            text-decoration: none;
+        }
+        .player-controls i {
+            margin: 0 20px;
+            font-size: 24px;
+        } */
+        .lecteur {
+            padding: 10px 20px;
+        }
+    </style>
+</head>
+
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="/">Sangeet</a>
+    <div class="collapse navbar-collapse">
+        <ul class="navbar-nav mr-auto">
+            {% if not signin %}
+            <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
+            <li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
+            {% else %}
+            <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
+            {% endif %}
+            <li class="nav-item"><a class="nav-link" href="/queue">Queue</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container2">
+    <div class="music-player">
+        <div class="cover">
+            <img src="{{ song.image.url }}" alt="{{ song.title }}">
+        </div>
+        <div class="titre">
+            <h1 class="textdata">{{ song.title }}</h1>
+            <h4 class="textdata">{{ song.artist }}</h4>
+        </div>
+
+        <div class="player-controls">
+            {% if previous_id %}
+                <a href="{% if playlist %}{% url 'App:playlist_song' playlist.id previous_id %}?mode=playlist&autoplay=1{% else %}{% url 'App:song' previous_id %}?mode=all&autoplay=1{% endif %}">
+                    <i class="fa fa-step-backward"></i>
+                </a>
+            {% endif %}
+            &nbsp;&nbsp;&nbsp;
+            {% if next_id %}
+                <a href="{% if playlist %}{% url 'App:playlist_song' playlist.id next_id %}?mode=playlist&autoplay=1{% else %}{% url 'App:song' next_id %}?mode=all&autoplay=1{% endif %}">
+                    <i class="fa fa-step-forward"></i>
+                </a>
+            {% endif %}
+        </div>
+
+        <div class="lecteur">
+            <audio class="fc-media" style="width: 100%;" {% if autoplay %}autoplay{% endif %} controls>
+                <source src="{% if song.audio_file %}{{ song.audio_file.url }}{% else %}{{ song.audio_link }}{% endif %}" type="audio/mp3">
+            </audio>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mediaelement/4.2.7/mediaelement-and-player.min.js"></script>
+<script>
+    var audio = {
+        init: function () {
+            $(function () {
+                $('audio.fc-media').mediaelementplayer({
+                    audioHeight: 40,
+                    features: ['playpause', 'current', 'duration', 'progress', 'volume'],
+                    alwaysShowControls: true,
+                    iPadUseNativeControls: true,
+                    iPhoneUseNativeControls: true,
+                    AndroidUseNativeControls: true
+                });
+            });
+        }
+    };
+    audio.init();
+</script>
+</body>
+</html>

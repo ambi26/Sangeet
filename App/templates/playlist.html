@@ -1,0 +1,86 @@
+{% extends 'basic.html' %}
+{% block title %} Playlist - {{ playlist.name }} {% endblock %}
+
+{% block css %}
+<style>
+	.col-md-3 {
+		display: inline-block;
+		margin-left: -4px;
+	}
+
+	.carousel-indicators .active {
+		background-color: blue;
+	}
+
+	.col-md-3 img {
+		max-width: 227px;
+		height: 242px;
+	}
+
+	body .carousel-indicator li {
+		background-color: blue;
+	}
+
+	body .carousel-indicators {
+		bottom: 0;
+	}
+
+	body .carousel-control-prev-icon,
+	body .carousel-control-next-icon {
+		background-color: blue;
+	}
+
+	.carousel-control-prev,
+	.carousel-control-next {
+		top: auto;
+		bottom: auto;
+	}
+
+	body .no-padding {
+		padding-left: 0;
+		padding-right: 0;
+	}
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="container">
+	<h4 class="my-4">{{ playlist.name }}</h4>
+	<p>Total Songs: {{ playlist.songs.count }}</p>
+
+	{% if playlist.songs.all %}
+	<div id="playlistCarousel" class="carousel slide my-3" data-ride="carousel">
+		<div class="container carousel-inner no-padding">
+			<div class="carousel-item active">
+				{% for song in playlist.songs.all %}
+				<div class="col-xs-3 col-sm-3 col-md-3">
+					<div class="card" style="width: 18rem;">
+						<img src='{{ song.image.url }}' class="card-img-top" alt="Song image">
+						<div class="card-body text-center">
+							<a href="{% url 'App:playlist_song' playlist.id song.id %}?mode=playlist&autoplay=1">
+								<h5 class="card-title">{{ song.title }}</h5>
+							</a>
+						</div>
+					</div>
+				</div>
+				{% if forloop.counter|divisibleby:4 and forloop.counter > 0 and not forloop.last %}
+			</div>
+			<div class="carousel-item">
+				{% endif %}
+				{% endfor %}
+			</div>
+		</div>
+
+		<!-- Carousel controls -->
+		<a class="carousel-control-prev" href="#playlistCarousel" data-slide="prev">
+			<span class="carousel-control-prev-icon"></span>
+		</a>
+		<a class="carousel-control-next" href="#playlistCarousel" data-slide="next">
+			<span class="carousel-control-next-icon"></span>
+		</a>
+	</div>
+	{% else %}
+	<p>No songs available in this playlist.</p>
+	{% endif %}
+</div>
+{% endblock %}

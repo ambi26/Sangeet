@@ -1,0 +1,9 @@
+{% extends 'basic.html' %}
+{% block title %} queue {% endblock %}
+{% block body %}
+
+{% for song in queue.songs.all %}
+    <h4> {{song.title}} </h4>
+{% endfor %}
+
+{% endblock %}

@@ -1,0 +1,456 @@
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/mediaelement/4.2.7/mediaelementplayer.min.css" rel="stylesheet" />
+	<link href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet" />
+    
+	<title>{% block title %} {% endblock %}</title>
+	<style>
+		#forwardbtn{
+			position: absolute;
+			left: 70%;
+		}
+		#backwardbtn{
+			position: absolute;
+			left: 30%;
+		}
+		.special {
+			height: 80%;
+		}
+		footer {
+			position: fixed;
+			bottom: 0%;
+			width: 100%;
+		}
+		body {
+			margin: 0;
+			font-family: "Raleway", sans-serif;
+		}
+	
+		.textdata {
+			left: 30%;
+			margin: 0;
+			padding: 0 10%;
+			color: white;
+		}
+	
+		.container2 {
+			display: block;
+			width: 100%;
+			height: 10%;
+			margin: auto;
+			overflow: hidden;
+			background: transparent linear-gradient(to bottom, rgba(10, 11, 31, 0.9) 50%, rgb(10, 11, 31) 70%) repeat scroll 0 0;
+			background-repeat: repeat;
+			background-size: cover;
+		}
+	
+		.music-player {
+			display: block;
+			position: relative;
+			width: 100%;
+			height: 100%;
+			margin: auto;
+			border-radius: 0 0 10px 10px;
+			box-shadow: 1px 10px 20px 5px #222;
+		}
+	
+		.cover {
+			float: left;
+			width: 10%;
+			height: 100%;
+			padding: 0%;
+			margin: 0%;
+			text-align: center;
+		}
+	
+		.cover img {
+			height: 80%;
+			width: 80%;
+			margin: 10%;
+		}
+	
+		.titre {
+			float: left;
+			width: 25%;
+			left: 10%;
+			margin: 0%;
+		}
+	
+		.center_1 {
+			float: left;
+			left: 35%;
+			width: 25%;
+			margin: 0%;
+		}
+	
+		.lecteur {
+			position: absolute;
+			float: left;
+			left: 35%;
+			margin: 0%;
+			width: 30%;
+			display: block;
+			height: 40%;
+		}
+	
+		#mep_0 {
+			top: 0%;
+			margin: 0%;
+			padding: 0%;
+			position: absolute;
+		}
+		.mejs_inner {
+			position: absolute;
+			margin: 0%;
+			padding: 0%;
+		}
+	
+		.mejs__button>button:focus {
+			outline: 0px dotted #999;
+		}
+	
+		.mejs__container {
+			position: absolute;
+			height: 20%;
+			background-color: transparent;
+			min-width: auto !important;
+			min-height: auto;
+		}
+	
+		.mejs__controls {
+			position: absolute;
+			background: transparent !important;
+			display: block;
+			text-align: center;
+		}
+	
+		.mejs__controls div {
+			margin: 0%;
+			display: block;
+			float: left;
+			position: relative;
+		}
+	
+		.mejs__controls .mejs__playpause-button {
+			margin: 0%;
+			left: 37%;
+			width: 40px;
+		}
+	
+		.mejs__controls .mejs__playpause-button button {
+			display: block;
+			width: 40px;
+			height: 40px;
+			padding: 0;
+			border: 0;
+			font-family: FontAwesome;
+			font-size: 23px;
+			color: #5bbb95;
+			background: transparent;
+			padding: 0;
+			margin: 0;
+		}
+	
+		.mejs__controls .mejs__play button:before {
+			content: "\f04b";
+		}
+	
+		.mejs__controls .mejs__pause button:before {
+			content: "\f04c";
+		}
+	
+		
+		.mejs__controls .mejs__volume-button {
+			position: absolute;
+			top: 2%;
+			left: 100%;
+			width: 40px;
+			height: 40px;
+		}
+	
+		.mejs__controls .mejs__volume-button button {
+			display: block;
+			position: absolute;
+			width: 40px;
+			height: 40px;
+			padding: 0;
+			border: 0;
+			font-family: FontAwesome;
+			font-size: 20px;
+			color: #5bbb95;
+			background: transparent;
+			margin: 0;
+			padding: 0;
+		}
+	
+		.mejs__controls .mejs__mute button:before {
+			content: "\f028";
+		}
+	
+		.mejs__controls .mejs__unmute button:before {
+			content: "\f026";
+		}
+	
+		.mejs__controls .mejs__time {
+			position: absolute;
+			float: left;
+			width: 100%;
+			margin-top: 10%;
+			top: 10%;
+			color: #fff;
+			height: auto;
+			padding: 0;
+			overflow: visible;
+			min-width: 100%;
+		}
+	
+		.mejs__controls .mejs__time span {
+			font-size: 15px;
+		}
+	
+		.mejs__controls span.mejs__duration {
+			float: right;
+			text-align: right;
+			color: #ccc;
+		}
+	
+		.mejs__controls span.mejs__currenttime {
+			font-weight: 700;
+			float: left;
+	
+		}
+	
+		.mejs__controls .mejs__time-rail {
+			width: 100%;
+			height: 5%;
+			margin: 0;
+		}
+	
+		.mejs__controls .mejs__time-rail span {
+			position: absolute;
+			width: 100%;
+			height: 4px;
+			border-radius: 50px;
+			cursor: pointer;
+		}
+	
+		.mejs__controls .mejs__time-rail .mejs__time-loaded {
+			background: rgba(255, 255, 255, 0.2);
+		}
+	
+		.mejs__controls .mejs__time-rail .mejs__time-float {
+			display: none;
+			top: -40px;
+			width: 40px;
+			height: 25px;
+			margin-left: 0px;
+			text-align: center;
+			font-size: 10px;
+			background: #fff;
+			border: 0;
+		}
+	
+		.mejs__controls .mejs__time-rail .mejs__time-float-current {
+			display: block;
+			position: absolute;
+			top: 0;
+			margin: 0;
+			line-height: 26px;
+			color: #100d28;
+		}
+	
+		.mejs__controls .mejs__time-rail .mejs__time-float-corner {
+			top: auto;
+			bottom: -9px;
+			left: 50%;
+			width: 0;
+			height: 0;
+			border-top: 6px solid #fff;
+			border-right: 6px solid transparent;
+			border-left: 6px solid transparent;
+		}
+	
+		.mejs__controls .mejs__time-rail .mejs__time-current {
+			background: #5BBB95 none repeat scroll 0 0;
+		}
+	
+		.mejs__controls .mejs__time-handle {
+			display: none;
+		}
+	
+	
+		.mejs__controls .mejs__horizontal-volume-slider {
+			display: block;
+			position: absolute !important;
+			top: 5%;
+			right: 0%;
+			width: 60px;
+			height: 4px;
+			margin-top: 18px;
+			border-radius: 50px;
+			line-height: 11px;
+		}
+	
+		.mejs__controls .mejs__horizontal-volume-slider .mejs__horizontal-volume-total,
+		.mejs__controls .mejs__horizontal-volume-slider .mejs__horizontal-volume-current {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: rgba(255, 255, 255, 0.1);
+		}
+
+		.mejs__controls .mejs__time-rail{
+			position: absolute;
+			top: 120%;
+		}
+	
+		.mejs__controls .mejs__horizontal-volume-slider .mejs__horizontal-volume-current {
+			background: #fff;
+		}
+	</style>
+	{% block css %} {% endblock %}
+</head>
+
+<body>
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+		<a class="navbar-brand" href="/">Sangeet</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+			aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav mr-auto">
+				{% if not signin %}
+				<li class="nav-item">
+					<a class="nav-link" href="login">Login</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="register">Signin</a>
+				</li>
+				{% endif %}
+				{% if signin %}
+				<li class="nav-item">
+					<a class="nav-link" href="logout">Logout</a>
+				</li>
+				{% endif %}
+				<li class="nav-item">
+					<a class="nav-link" href="queue">Queue</a>
+				</li>
+			</ul>
+			<form class="form-inline my-2 my-lg-0">
+				<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+				<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+			</form>
+		</div>
+	</nav>
+	{% for message in messages %}
+	<div class="alert alert-info alert-dismissible fade show" role="alert" >
+		{{message}}
+		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	</div>
+	{% endfor %}
+	{% block body %} {% endblock %}
+	<footer>
+		<div class="container2">
+			<div class="music-player">
+				{% for item in queue.songs.all %}
+				{% if forloop.counter == queue.pointer %}
+				<div class="cover">
+					<img alt="" src="{{item.image.url}}" />
+				</div>
+				<div class="titre">
+					<h2 class="textdata">
+						{{item.title}}
+					</h1>
+					<h5 class="textdata">
+						{{item.artist}}
+					</h5>
+				</div>
+				<center class="center_1">
+					<a id="backwardbtn" href="#">
+						<i class="fa fa-step-backward fa-2x"></i>
+					</a> 
+					&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; 
+					<a id="forwardbtn" href="#">
+						<i class="fa fa-step-forward fa-2x"></i>
+					</a>
+				</center>
+				<div class="lecteur">
+					<audio class="fc-media" style="width: 100%;">
+						<source src="{% if item.audio_file %}{{item.audio_file.url}} {% else %} {{item.audio_link}} {% endif %}" type="audio/mp3" />
+					</audio>
+				</div>
+				{% endif %}
+				{% endfor %}
+			</div>
+		</div>
+	</footer>
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+		crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+		integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+		crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+		integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+		crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/mediaelement/4.2.7/mediaelement-and-player.min.js"></script>
+	<script>
+		const forwardbtn = document.getElementById('forwardbtn')
+		const backwardbtn = document.getElementById('backwardbtn')
+		console.log(forwardbtn)
+		console.log(backwardbtn)
+		//let pointer = 1
+		//console.log(pointer)
+		//const maxln = parseInt("{{total_songs}}")
+		// forwardbtn.addEventListener('click',()=>{
+		// 	console.log("print")
+		// 	if (pointer<maxln){
+		// 		pointer+=1
+		// 	}
+		// })
+		// backwardbtn.addEventListener('click',()=>{
+		// 	if(pointer>1){
+		// 		pointer-=1
+		// 	}
+		// })
+		
+		var audio = {
+			init: function () {
+				var $that = this;
+                $(function () {
+					$that.components.media();
+                });
+            },
+            components: {
+                media: function (target) {
+                    var media = $('audio.fc-media', (target !== undefined) ? target : 'body');
+                    if (media.length) {
+						media.mediaelementplayer({
+                            audioHeight: 40,
+                            features: ['playpause', 'current', 'duration', 'progress', 'volume', 'tracks', 'fullscreen'],
+                            alwaysShowControls: true,
+                            timeAndDurationSeparator: '<span></span>',
+                            iPadUseNativeControls: true,
+                            iPhoneUseNativeControls: true,
+                            AndroidUseNativeControls: true
+                        });
+                    }
+                },
+				
+            },
+        };
+        audio.init();
+	</script>
+	{% block js %} {% endblock %}
+</body>
+
+</html>

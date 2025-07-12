@@ -1,0 +1,16 @@
+{% extends 'basic.html' %}
+{% block title %} register {% endblock %}
+{% block body %}
+<form action="register" method="post">
+    {% csrf_token %}
+    <input type="text" name="first_name" placeholder="first name" value="{{first_name}}"><br>
+    <input type="text" name="last_name" placeholder="last name" value="{{last_name}}"><br>
+    <input type="text" name="username" placeholder="username" required value="{{username}}"><br>
+    <input type="text" name="email" placeholder="email" required value="{{email}}"><br>
+    <input type="password" name="password1" placeholder="password" required value="{{pss1}}"><br>
+    <input type="password" name="password2" placeholder="confirm password" required value="{{pss2}}"><br>
+    <input type="text" name="phone_number" placeholder="Phone Number" required value="{{phone_number}}">
+    <input type="submit">
+</form>
+
+{% endblock %}

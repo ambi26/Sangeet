@@ -1,0 +1,19 @@
+{% extends 'basic.html' %}
+{% block title %} verify_otp {% endblock %}
+{% block body %}
+<form method="post">
+  {% csrf_token %}
+  <input type="text" name="otp" placeholder="Enter OTP" required>
+  <button type="submit">Verify OTP</button>
+  {% if messages %}
+    {% for message in messages %}
+      <p>{{ message }}</p>
+    {% endfor %}
+  {% endif %}
+</form>
+
+{% endblock %}
+{% if debug_otp %}
+    <p style="color:red;">[DEBUG] OTP: {{ debug_otp }}</p>
+{% endif %}
+
